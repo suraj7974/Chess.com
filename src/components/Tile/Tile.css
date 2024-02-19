@@ -1,0 +1,19 @@
+.tile {
+    width: 87.5px;
+    height: 87.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nigga-tile {
+    background-color: #779954;
+} 
+
+.white-tile {
+    background-color: #e9edcc;
+} 
+
+.tile img {
+    width: 70px;
+}
