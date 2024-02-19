@@ -1,8 +1,8 @@
 import "./Tile.css";
 
 interface Props {
-  number : number;
-  image? : string;
+  number: number;
+  image?: string;
 }
 
 function Tile({ number, image }: Props) {
