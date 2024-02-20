@@ -1,19 +1,34 @@
 .tile {
-    width: 87.5px;
-    height: 87.5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 87.5px;
+  height: 87.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nigga-tile {
-    background-color: #779954;
-} 
+  background-color: #779954;
+}
 
 .white-tile {
-    background-color: #e9edcc;
-} 
+  background-color: #e9edcc;
+}
 
-.tile img {
+/* .tile img {
     width: 80px;
+} */
+
+.tile .chess-piece {
+  width: 80px;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-size: 80px;
+}
+
+.tile .chess-piece:hover {
+  cursor: grab;
+}
+
+.tile .chess-piece:active {
+    cursor: grabbing;
 }
