@@ -66,14 +66,29 @@ function Chessboard() {
   function movepiece(e: React.MouseEvent) {
     const chessboard = chessboardRef.current;
     if (activePiece && chessboard) {
-      console.log(e);
-      const minX = parseInt(chessboard.style.left);
-      const minY = parseInt(chessboard.style.top);
+      const minX = chessboard.offsetLeft - 15;
+      const minY = chessboard.offsetTop - 15;
+      const maxX = chessboard.offsetLeft + chessboard.clientWidth - 65;
+      const maxY = chessboard.offsetTop + chessboard.clientWidth - 75;
       const x = e.clientX - 50;
       const y = e.clientY - 50;
       activePiece.style.position = "absolute";
-      activePiece.style.left = `${x}px`;
-      activePiece.style.top = `${y}px`;
+
+      if (x < minX) {
+        activePiece.style.left = `${minX}px`;
+      } else if (x > maxX) {
+        activePiece.style.left = `${maxX}px`;
+      } else {
+        activePiece.style.left = `${x}px`;
+      }
+
+      if (y < minY) {
+        activePiece.style.top = `${minY}px`;
+      } else if (y > maxY) {
+        activePiece.style.top= `${maxY}px`;
+      } else {
+        activePiece.style.top = `${y}px`;
+      }
     }
   }
 
