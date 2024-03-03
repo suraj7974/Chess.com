@@ -12,6 +12,20 @@ interface Piece {
 }
 
 const pieces: Piece[] = [];
+
+for (let p = 0; p < 2; p++) {
+  const type = p === 0 ? "nigga" : "white";
+  const y = p === 0 ? 7 : 0;
+  pieces.push({ image: `assets/images/${type}_rook.png`, x: 0, y });
+  pieces.push({ image: `assets/images/${type}_rook.png`, x: 7, y });
+  pieces.push({ image: `assets/images/${type}_knight.png`, x: 6, y });
+  pieces.push({ image: `assets/images/${type}_knight.png`, x: 1, y });
+  pieces.push({ image: `assets/images/${type}_bishop.png`, x: 5, y });
+  pieces.push({ image: `assets/images/${type}_bishop.png`, x: 2, y });
+  pieces.push({ image: `assets/images/${type}_queen.png`, x: 3, y });
+  pieces.push({ image: `assets/images/${type}_king.png`, x: 4, y });
+}
+
 // pawn
 for (let i = 0; i <= 7; i++) {
   pieces.push({ image: "assets/images/nigga_pawn.png", x: i, y: 6 });
@@ -19,32 +33,6 @@ for (let i = 0; i <= 7; i++) {
 for (let i = 0; i <= 7; i++) {
   pieces.push({ image: "assets/images/white_pawn.png", x: i, y: 1 });
 }
-
-// rook
-pieces.push({ image: "assets/images/nigga_rook.png", x: 7, y: 7 });
-pieces.push({ image: "assets/images/nigga_rook.png", x: 0, y: 7 });
-pieces.push({ image: "assets/images/white_rook.png", x: 0, y: 0 });
-pieces.push({ image: "assets/images/white_rook.png", x: 7, y: 0 });
-
-// knight
-pieces.push({ image: "assets/images/nigga_knight.png", x: 1, y: 7 });
-pieces.push({ image: "assets/images/nigga_knight.png", x: 6, y: 7 });
-pieces.push({ image: "assets/images/white_knight.png", x: 1, y: 0 });
-pieces.push({ image: "assets/images/white_knight.png", x: 6, y: 0 });
-
-//bishop
-pieces.push({ image: "assets/images/nigga_bishop.png", x: 2, y: 7 });
-pieces.push({ image: "assets/images/nigga_bishop.png", x: 5, y: 7 });
-pieces.push({ image: "assets/images/white_bishop.png", x: 2, y: 0 });
-pieces.push({ image: "assets/images/white_bishop.png", x: 5, y: 0 });
-
-//queen
-pieces.push({ image: "assets/images/nigga_queen.png", x: 3, y: 7 });
-pieces.push({ image: "assets/images/white_queen.png", x: 3, y: 0 });
-
-//king
-pieces.push({ image: "assets/images/nigga_king.png", x: 4, y: 7 });
-pieces.push({ image: "assets/images/white_king.png", x: 4, y: 0 });
 
 function Chessboard() {
   const chessboardRef = useRef<HTMLDivElement>(null);
@@ -85,7 +73,7 @@ function Chessboard() {
       if (y < minY) {
         activePiece.style.top = `${minY}px`;
       } else if (y > maxY) {
-        activePiece.style.top= `${maxY}px`;
+        activePiece.style.top = `${maxY}px`;
       } else {
         activePiece.style.top = `${y}px`;
       }
