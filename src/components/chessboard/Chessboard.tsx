@@ -180,16 +180,16 @@ function Chessboard() {
               x,
               y,
               p.type,
-              p.team,value
+              p.team,
+              value
             );
             if (validMove) {
               p.x = x;
               p.y = y;
-            }else{
-              activePiece.style.position='relative';
+            } else {
+              activePiece.style.position = "relative";
               activePiece.style.removeProperty("top");
               activePiece.style.removeProperty("left");
-
             }
           }
           return p;
