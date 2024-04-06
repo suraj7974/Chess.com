@@ -171,6 +171,21 @@ function Chessboard() {
       const y = Math.abs(
         Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100)
       );
+
+      const currentPiece = pieces.find((p) => p.x == gridX && p.y == gridY);
+      const attackedPiece = pieces.find((p) => p.x == x && p.y == y);
+      if (currentPiece) {
+        const vaildMove = referee.isValidMove(
+          gridX,
+          gridY,
+          x,
+          y,
+          currentPiece?.type,
+          currentPiece?.team,
+          pieces
+        );
+      }
+
       setPieces((value) => {
         const pieces = value.map((p) => {
           if (p.x === gridX && p.y === gridY) {
