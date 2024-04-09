@@ -1,9 +1,14 @@
-export const horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"];
-export const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
+export const HORIZONTAL_AXIS = ["a", "b", "c", "d", "e", "f", "g", "h"];
+export const VERTICAL_AXIS = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
-export interface Position{
-    x: number;
-    y: number;
+export const GRID_SIZE = 100;
+export function samePosition(p1: Position, p2: Position) {
+  return p1.x === p2.x && p1.y === p2.y;
+}
+
+export interface Position {
+  x: number;
+  y: number;
 }
 
 export enum PieceType {
@@ -22,8 +27,7 @@ export enum TeamType {
 
 export interface Piece {
   image: string;
-  x: number;
-  y: number;
+  position: Position;
   type: PieceType;
   team: TeamType;
   enPassent?: boolean;
@@ -37,57 +41,73 @@ for (let p = 0; p < 2; p++) {
   initialBoardState.push(
     {
       image: `assets/images/${type}_rook.png`,
-      x: 0,
-      y,
+      position: {
+        x: 0,
+        y,
+      },
       type: PieceType.ROOK,
       team: teamType,
     },
     {
       image: `assets/images/${type}_rook.png`,
-      x: 7,
-      y,
+      position: {
+        x: 7,
+        y,
+      },
       type: PieceType.ROOK,
       team: teamType,
     },
     {
       image: `assets/images/${type}_knight.png`,
-      x: 6,
-      y,
+      position: {
+        x: 6,
+        y,
+      },
       type: PieceType.KNIGHT,
       team: teamType,
     },
     {
       image: `assets/images/${type}_knight.png`,
-      x: 1,
-      y,
+      position: {
+        x: 1,
+        y,
+      },
       type: PieceType.KNIGHT,
       team: teamType,
     },
     {
       image: `assets/images/${type}_bishop.png`,
-      x: 5,
-      y,
+      position: {
+        x: 5,
+        y,
+      },
       type: PieceType.BISHOP,
       team: teamType,
     },
     {
       image: `assets/images/${type}_bishop.png`,
-      x: 2,
-      y,
+      position: {
+        x: 2,
+        y,
+      },
       type: PieceType.BISHOP,
       team: teamType,
     },
     {
       image: `assets/images/${type}_queen.png`,
-      x: 3,
-      y,
+      position: {
+        x: 3,
+        y,
+      },
       type: PieceType.QUEEN,
       team: teamType,
     },
     {
       image: `assets/images/${type}_king.png`,
-      x: 4,
-      y,
+      position: {
+        x: 4,
+        y,
+      },
       type: PieceType.KING,
       team: teamType,
     }
@@ -98,8 +118,10 @@ for (let p = 0; p < 2; p++) {
 for (let i = 0; i <= 7; i++) {
   initialBoardState.push({
     image: "assets/images/black_pawn.png",
-    x: i,
-    y: 6,
+    position: {
+      x: i,
+      y: 6,
+    },
     type: PieceType.PAWN,
     team: TeamType.OPPONENT,
   });
@@ -107,8 +129,10 @@ for (let i = 0; i <= 7; i++) {
 for (let i = 0; i <= 7; i++) {
   initialBoardState.push({
     image: "assets/images/white_pawn.png",
-    x: i,
-    y: 1,
+    position: {
+      x: i,
+      y: 1,
+    },
     type: PieceType.PAWN,
     team: TeamType.OUR,
   });
