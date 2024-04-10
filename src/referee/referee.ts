@@ -128,6 +128,24 @@ export default class Referee {
           return true;
         }
       }
+    } else if (type === PieceType.KNIGHT) {
+      //moving logic
+      for (let i = -1; i < 2; i += 2) {
+        for (let j = -1; j <= 2; j += 2) {
+          // top/bottom movement
+          if (desiredPosition.y - initialPosition.y === 2 * i) {
+            if (desiredPosition.x - initialPosition.x === j) {
+              console.log("top left");
+            }
+          }
+          // left/right movement
+          if (desiredPosition.x - initialPosition.x === 2 * i) {
+            if (desiredPosition.y - initialPosition.y === j) {
+              console.log("right upper");
+            }
+          }
+        }
+      }
     }
     return false;
   }
