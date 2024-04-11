@@ -165,6 +165,20 @@ export default class Referee {
         }
       }
     }
+    if (type === PieceType.ROOK) {
+      //movement
+      for (let i = 1; i < 8; i++) {
+        if (desiredPosition.x - initialPosition.x === -i) {
+          return true;
+        } else if (desiredPosition.x - initialPosition.x === i) {
+          return true;
+        } else if (desiredPosition.y - initialPosition.y === i) {
+          return true;
+        } else if (desiredPosition.y - initialPosition.y === -i) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 }
