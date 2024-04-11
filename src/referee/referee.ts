@@ -155,6 +155,95 @@ export default class Referee {
           }
         }
       }
+    } else if (type == PieceType.BISHOP) {
+      //movement logic
+      for (let i = 1; i < 8; i++) {
+        //
+        if (
+          desiredPosition.x > initialPosition.x &&
+          desiredPosition.y > initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x + i,
+            y: initialPosition.y + i,
+          };
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            console.log("illegal move");
+            break;
+          }
+        }
+        //
+         else if (
+          desiredPosition.x < initialPosition.x &&
+          desiredPosition.y > initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x - i,
+            y: initialPosition.y + i,
+          };
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            console.log("illegal move");
+            break;
+          }
+        }
+        //
+        else if (
+          desiredPosition.x < initialPosition.x &&
+          desiredPosition.y < initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x - i,
+            y: initialPosition.y - i,
+          };
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            console.log("illegal move");
+            break;
+          }
+        }
+        //
+        else if (
+          desiredPosition.x > initialPosition.x &&
+          desiredPosition.y < initialPosition.y
+        ) {
+          let passedPosition: Position = {
+            x: initialPosition.x + i,
+            y: initialPosition.y - i,
+          };
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            console.log("illegal move");
+            break;
+          }
+        }
+
+        //upper right
+        if (
+          desiredPosition.x - initialPosition.x === i &&
+          desiredPosition.y - initialPosition.y === i
+        ) {
+          return true;
+        }
+        //upper left
+        else if (
+          desiredPosition.x - initialPosition.x === -i &&
+          desiredPosition.y - initialPosition.y === i
+        ) {
+          return true;
+        }
+        //bottom left
+        else if (
+          desiredPosition.x - initialPosition.x === -i &&
+          desiredPosition.y - initialPosition.y === -i
+        ) {
+          return true;
+        }
+        //bottom right
+        else if (
+          desiredPosition.x - initialPosition.x === i &&
+          desiredPosition.y - initialPosition.y === -i
+        ) {
+          return true;
+        }
+      }
     }
     return false;
   }
