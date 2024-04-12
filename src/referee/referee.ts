@@ -177,10 +177,14 @@ export default class Referee {
             y: initialPosition.y,
           };
           if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
-            console.log("arrived");
-            break;
+            if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+              return true;
+            }
+          } else {
+            if (this.tileIsOccupied(passedPosition, boardState)) {
+              break;
+            }
           }
-          // return true;
         }
       }
       //vertical
@@ -192,10 +196,14 @@ export default class Referee {
             y: initialPosition.y + i * multiplier,
           };
           if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
-            console.log("arrived");
-            break;
+            if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+              return true;
+            }
+          } else {
+            if (this.tileIsOccupied(passedPosition, boardState)) {
+              break;
+            }
           }
-          // return true;
         }
       }
     }
