@@ -1,3 +1,4 @@
+import { config } from "process";
 import { PieceType, TeamType, Piece, Position, samePosition } from "../Constants";
 
 export default class Referee {
@@ -57,6 +58,12 @@ export default class Referee {
         break;
       case PieceType.ROOK:
         validMove = this.rookMove(initialPosition, desiredPosition, team, boardState);
+        break;
+      case PieceType.QUEEN:
+        validMove = this.queenMove(initialPosition, desiredPosition, team, boardState);
+        break;
+      case PieceType.KING:
+        validMove = this.kingMove(initialPosition, desiredPosition, team, boardState);
         break;
     }
     return validMove;
@@ -231,6 +238,52 @@ export default class Referee {
             break;
           }
         }
+      }
+    }
+    return false;
+  }
+  queenMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean {
+    return false;
+  }
+  kingMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean {
+    if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y === initialPosition.y) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y === initialPosition.y) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.y - initialPosition.y == 1 && desiredPosition.x === initialPosition.x) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.y - initialPosition.y == -1 && desiredPosition.x === initialPosition.x) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y - initialPosition.y == 1) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y - initialPosition.y == -1) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y - initialPosition.y == 1) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
+      }
+    }
+    if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y - initialPosition.y == -1) {
+      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+        return true;
       }
     }
     return false;
