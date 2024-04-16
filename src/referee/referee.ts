@@ -62,9 +62,9 @@ export default class Referee {
       case PieceType.QUEEN:
         validMove = this.queenMove(initialPosition, desiredPosition, team, boardState);
         break;
-      case PieceType.KING:
-        validMove = this.kingMove(initialPosition, desiredPosition, team, boardState);
-        break;
+      // case PieceType.KING:
+      //   validMove = this.kingMove(initialPosition, desiredPosition, team, boardState);
+      //   break;
     }
     return validMove;
   }
@@ -137,7 +137,7 @@ export default class Referee {
           x: initialPosition.x + i,
           y: initialPosition.y + i,
         };
-        if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
+        if (samePosition(passedPosition, desiredPosition)) {
           if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
             return true;
           }
@@ -153,7 +153,7 @@ export default class Referee {
           x: initialPosition.x - i,
           y: initialPosition.y + i,
         };
-        if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
+        if (samePosition(passedPosition, desiredPosition)) {
           if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
             return true;
           }
@@ -169,7 +169,7 @@ export default class Referee {
           x: initialPosition.x - i,
           y: initialPosition.y - i,
         };
-        if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
+        if (samePosition(passedPosition, desiredPosition)) {
           if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
             return true;
           }
@@ -185,7 +185,7 @@ export default class Referee {
           x: initialPosition.x + i,
           y: initialPosition.y - i,
         };
-        if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
+        if (samePosition(passedPosition, desiredPosition)) {
           if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
             return true;
           }
@@ -210,7 +210,7 @@ export default class Referee {
           x: initialPosition.x + i * multiplier,
           y: initialPosition.y,
         };
-        if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
+        if (samePosition(passedPosition, desiredPosition)) {
           if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
             return true;
           }
@@ -229,7 +229,7 @@ export default class Referee {
           x: initialPosition.x,
           y: initialPosition.y + i * multiplier,
         };
-        if (passedPosition.x === desiredPosition.x && passedPosition.y === desiredPosition.y) {
+        if (samePosition(passedPosition, desiredPosition)) {
           if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
             return true;
           }
@@ -243,49 +243,150 @@ export default class Referee {
     return false;
   }
   queenMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean {
+    for (let i = 1; i < 8; i++) {
+      //horizontal
+      if (initialPosition.y === desiredPosition.y) {
+        let multiplier = desiredPosition.x < initialPosition.x ? -1 : 1;
+        let passedPosition: Position = {
+          x: initialPosition.x + i * multiplier,
+          y: initialPosition.y,
+        };
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+            return true;
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break;
+          }
+        }
+      }
+      //vertical
+      if (initialPosition.x === desiredPosition.x) {
+        let multiplier = desiredPosition.y < initialPosition.y ? -1 : 1;
+        let passedPosition: Position = {
+          x: initialPosition.x,
+          y: initialPosition.y + i * multiplier,
+        };
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+            return true;
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break;
+          }
+        }
+      }
+      //upper right
+      if (desiredPosition.x > initialPosition.x && desiredPosition.y > initialPosition.y) {
+        let passedPosition: Position = {
+          x: initialPosition.x + i,
+          y: initialPosition.y + i,
+        };
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+            return true;
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break;
+          }
+        }
+      }
+      //upper left
+      if (desiredPosition.x < initialPosition.x && desiredPosition.y > initialPosition.y) {
+        let passedPosition: Position = {
+          x: initialPosition.x - i,
+          y: initialPosition.y + i,
+        };
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+            return true;
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break;
+          }
+        }
+      }
+      //bottom left
+      if (desiredPosition.x < initialPosition.x && desiredPosition.y < initialPosition.y) {
+        let passedPosition: Position = {
+          x: initialPosition.x - i,
+          y: initialPosition.y - i,
+        };
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+            return true;
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break;
+          }
+        }
+      }
+      //bottom right
+      if (desiredPosition.x > initialPosition.x && desiredPosition.y < initialPosition.y) {
+        let passedPosition: Position = {
+          x: initialPosition.x + i,
+          y: initialPosition.y - i,
+        };
+        if (samePosition(passedPosition, desiredPosition)) {
+          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+            return true;
+          }
+        } else {
+          if (this.tileIsOccupied(passedPosition, boardState)) {
+            break;
+          }
+        }
+      }
+    }
+
     return false;
   }
-  kingMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean {
-    if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y === initialPosition.y) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y === initialPosition.y) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.y - initialPosition.y == 1 && desiredPosition.x === initialPosition.x) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.y - initialPosition.y == -1 && desiredPosition.x === initialPosition.x) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y - initialPosition.y == 1) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y - initialPosition.y == -1) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y - initialPosition.y == 1) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y - initialPosition.y == -1) {
-      if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // kingMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean {
+  //   if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y === initialPosition.y) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y === initialPosition.y) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.y - initialPosition.y == 1 && desiredPosition.x === initialPosition.x) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.y - initialPosition.y == -1 && desiredPosition.x === initialPosition.x) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y - initialPosition.y == 1) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.x - initialPosition.x == -1 && desiredPosition.y - initialPosition.y == -1) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y - initialPosition.y == 1) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   if (desiredPosition.x - initialPosition.x == 1 && desiredPosition.y - initialPosition.y == -1) {
+  //     if (this.tileIsEmptyOrOccupiedByOpponent(desiredPosition, boardState, team)) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 }
