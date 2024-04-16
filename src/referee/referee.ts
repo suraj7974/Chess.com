@@ -32,9 +32,7 @@ export default class Referee {
         (desiredPosition.x - initialPosition.x === -1 || desiredPosition.x - initialPosition.x === 1) &&
         desiredPosition.y - initialPosition.y === pawnDirection
       ) {
-        const piece = boardState.find(
-          (p) => p.position.x === desiredPosition.x && p.position.y === desiredPosition.y - pawnDirection && p.enPassent
-        );
+        const piece = boardState.find((p) => p.position.x === desiredPosition.x && p.position.y === desiredPosition.y - pawnDirection && p.enPassent);
         if (piece) {
           return true;
         }
@@ -74,11 +72,7 @@ export default class Referee {
     const specialRow = team === TeamType.OUR ? 1 : 6;
     const pawnDirection = team === TeamType.OUR ? 1 : -1;
     //movement logic
-    if (
-      initialPosition.x === desiredPosition.x &&
-      initialPosition.y === specialRow &&
-      desiredPosition.y - initialPosition.y === 2 * pawnDirection
-    ) {
+    if (initialPosition.x === desiredPosition.x && initialPosition.y === specialRow && desiredPosition.y - initialPosition.y === 2 * pawnDirection) {
       if (
         !this.tileIsOccupied(desiredPosition, boardState) &&
         !this.tileIsOccupied({ x: desiredPosition.x, y: desiredPosition.y - pawnDirection }, boardState)
@@ -244,102 +238,33 @@ export default class Referee {
   }
   queenMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean {
     for (let i = 1; i < 8; i++) {
-      //horizontal
-      if (initialPosition.y === desiredPosition.y) {
-        let multiplier = desiredPosition.x < initialPosition.x ? -1 : 1;
-        let passedPosition: Position = {
-          x: initialPosition.x + i * multiplier,
-          y: initialPosition.y,
-        };
-        if (samePosition(passedPosition, desiredPosition)) {
-          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
-            return true;
-          }
-        } else {
-          if (this.tileIsOccupied(passedPosition, boardState)) {
-            break;
-          }
-        }
+      let multiplierX;
+      if (desiredPosition.x < initialPosition.x) {
+        multiplierX = -1;
+      } else if (desiredPosition.x > initialPosition.x) {
+        multiplierX = 1;
+      } else {
+        multiplierX = 0;
       }
-      //vertical
-      if (initialPosition.x === desiredPosition.x) {
-        let multiplier = desiredPosition.y < initialPosition.y ? -1 : 1;
-        let passedPosition: Position = {
-          x: initialPosition.x,
-          y: initialPosition.y + i * multiplier,
-        };
-        if (samePosition(passedPosition, desiredPosition)) {
-          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
-            return true;
-          }
-        } else {
-          if (this.tileIsOccupied(passedPosition, boardState)) {
-            break;
-          }
-        }
+      let multiplierY;
+      if (desiredPosition.y < initialPosition.y) {
+        multiplierY = -1;
+      } else if (desiredPosition.y > initialPosition.y) {
+        multiplierY = 1;
+      } else {
+        multiplierY = 0;
       }
-      //upper right
-      if (desiredPosition.x > initialPosition.x && desiredPosition.y > initialPosition.y) {
-        let passedPosition: Position = {
-          x: initialPosition.x + i,
-          y: initialPosition.y + i,
-        };
-        if (samePosition(passedPosition, desiredPosition)) {
-          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
-            return true;
-          }
-        } else {
-          if (this.tileIsOccupied(passedPosition, boardState)) {
-            break;
-          }
+      let passedPosition: Position = {
+        x: initialPosition.x + i * multiplierX,
+        y: initialPosition.y + i * multiplierY,
+      };
+      if (samePosition(passedPosition, desiredPosition)) {
+        if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
+          return true;
         }
-      }
-      //upper left
-      if (desiredPosition.x < initialPosition.x && desiredPosition.y > initialPosition.y) {
-        let passedPosition: Position = {
-          x: initialPosition.x - i,
-          y: initialPosition.y + i,
-        };
-        if (samePosition(passedPosition, desiredPosition)) {
-          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
-            return true;
-          }
-        } else {
-          if (this.tileIsOccupied(passedPosition, boardState)) {
-            break;
-          }
-        }
-      }
-      //bottom left
-      if (desiredPosition.x < initialPosition.x && desiredPosition.y < initialPosition.y) {
-        let passedPosition: Position = {
-          x: initialPosition.x - i,
-          y: initialPosition.y - i,
-        };
-        if (samePosition(passedPosition, desiredPosition)) {
-          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
-            return true;
-          }
-        } else {
-          if (this.tileIsOccupied(passedPosition, boardState)) {
-            break;
-          }
-        }
-      }
-      //bottom right
-      if (desiredPosition.x > initialPosition.x && desiredPosition.y < initialPosition.y) {
-        let passedPosition: Position = {
-          x: initialPosition.x + i,
-          y: initialPosition.y - i,
-        };
-        if (samePosition(passedPosition, desiredPosition)) {
-          if (this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)) {
-            return true;
-          }
-        } else {
-          if (this.tileIsOccupied(passedPosition, boardState)) {
-            break;
-          }
+      } else {
+        if (this.tileIsOccupied(passedPosition, boardState)) {
+          break;
         }
       }
     }
